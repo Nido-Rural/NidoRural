@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Nido Rural - Catálogo de productos agrícolas y ganaderos 100% orgánicos. Calidad fresca, producción local.">
+  <title>Nido Rural - Catálogo de Productos</title>
+
+  <!-- ==========================================
+       FAVICONS Y MANIFIESTO
+       ========================================== -->
+  <link rel="icon" type="image/png" href="img/favicon-96x96.png" sizes="96x96">
+  <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+  <link rel="shortcut icon" href="img/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png">
+  <link rel="manifest" href="img/site.webmanifest">
+
+  <!-- ==========================================
+       TIPOGRAFÍA (Google Fonts - Outfit & Plus Jakarta Sans)
+       ========================================== -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- ==========================================
+       TAILWIND CSS CDN + CONFIGURACIÓN DE COLORES
+       ========================================== -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'verde-oscuro': '#205c30',
+            'verde-claro': '#70a83e',
+            'marron-tierra': '#9e5b2d',
+            'amarillo-sol': '#fbb03b',
+            'fondo-crema': '#fdfdfb',
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            display: ['"Outfit"', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- ==========================================
+       MAPA INTERACTIVO - LEAFLET.JS (CDN)
+       ========================================== -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+  <!-- ==========================================
+       HOJA DE ESTILOS PERSONALIZADA
+       ========================================== -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="bg-fondo-crema text-stone-800 font-sans antialiased min-h-screen flex flex-col selection:bg-verde-claro selection:text-white">
+
+  <!-- ==========================================
+       1. HEADER / NAVEGACIÓN PRINCIPAL (FIJA)
+       ========================================== -->
+  <header class="fixed top-0 left-0 w-full z-40 bg-fondo-crema/90 backdrop-blur-md border-b border-verde-oscuro/10 shadow-sm transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
+      
+      <!-- Logo y Nombre de Marca -->
+      <a href="index.html" class="flex items-center gap-2.5 sm:gap-3 group focus:outline-none focus:ring-2 focus:ring-verde-claro rounded-xl p-1 transition" aria-label="Ir a inicio - Nido Rural">
+        <img 
+          src="img/Nido_Rural_logo_alta_calidad_page-0001 - Editado.jpg" 
+          alt="Logotipo Nido Rural" 
+          width="56"
+          height="56"
+          class="logo-nido-rural logo-nido-rural-header h-11 w-11 sm:h-14 sm:w-14 flex-shrink-0 aspect-square object-contain rounded-full border-2 border-verde-claro/30 shadow-sm group-hover:scale-105 transition-transform duration-300"
+          style="aspect-ratio: 1/1; object-fit: contain; flex-shrink: 0;"
+          onerror="this.onerror=null; this.src='img/favicon.svg';"
+        >
+        <div class="flex flex-col">
+          <span class="font-display font-bold text-xl sm:text-2xl text-verde-oscuro tracking-tight leading-none group-hover:text-verde-claro transition-colors">
+            Nido Rural
+          </span>
+          <span class="text-[11px] sm:text-xs font-medium text-marron-tierra uppercase tracking-wider mt-0.5">
+            Calidad orgánica
+          </span>
+        </div>
+      </a>
+
+      <!-- Enlaces de Navegación: Inicio y Catálogo (alineados a la derecha) -->
+      <nav class="flex items-center gap-2 sm:gap-4">
+        <!-- Enlace a Inicio -->
+        <a 
+          href="index.html" 
+          class="font-semibold text-sm sm:text-base text-stone-600 hover:text-verde-oscuro transition-colors py-1 px-3 rounded-lg hover:bg-verde-claro/10"
+        >
+          Inicio
+        </a>
+
+        <!-- Enlace a Catálogo (Página actual activa) -->
+        <a 
+          href="productos.html" 
+          class="font-bold text-sm sm:text-base text-verde-oscuro border-b-2 border-verde-claro py-1 px-3"
+          aria-current="page"
+        >
+          Catálogo
+        </a>
+      </nav>
+
+    </div>
+  </header>
+
+  <!-- ==========================================
+       BANNER DE SECCIÓN DE CATÁLOGO
+       ========================================== -->
+  <section class="pt-28 pb-8 bg-gradient-to-b from-verde-oscuro/5 via-fondo-crema to-fondo-crema">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-verde-claro/15 text-verde-oscuro border border-verde-claro/30 shadow-sm mb-3">
+        🌱 Directo del Productor Local
+      </span>
+      <h1 class="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold text-verde-oscuro tracking-tight">
+        Catálogo de Productos Frescos
+      </h1>
+      <p class="text-stone-600 text-sm sm:text-base mt-2 max-w-2xl mx-auto">
+        Explora nuestros alimentos artesanales y agroecológicos cosechados con dedicación en el campo paraguayo.
+      </p>
+      <div class="w-16 h-1 bg-amarillo-sol mx-auto mt-4 rounded-full"></div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       2. CONTENEDOR DE PRODUCTOS (MAIN)
+       ID: productos-contenedor para el render dinámico
+       ========================================== -->
+  <main id="productos-contenedor" class="flex-grow max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 py-6 md:py-8 w-full">
+    <!-- Cuadrícula dinámica renderizada por main.js (2 columnas en móvil, 3 en tablet, 4 en escritorio) -->
+    <div class="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
+      <!-- Los productos se inyectan dinámicamente con JavaScript -->
+    </div>
+  </main>
+
+  <!-- ==========================================
+       3. MODAL DEL CARRITO (CENTRADO Y SCROLLEABLE)
+       Oculto por defecto con clase 'hidden'.
+       Contenedor: fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4
+       ========================================== -->
+  <div 
+    id="modal-carrito" 
+    class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4 hidden" 
+    aria-labelledby="titulo-carrito" 
+    role="dialog" 
+    aria-modal="true"
+  >
+    <!-- Caja Blanca del Modal (max-h-[90vh] para que nunca desborde la pantalla) -->
+    <div class="bg-white w-full max-w-lg rounded-xl shadow-2xl flex flex-col max-h-[90vh] overflow-hidden border border-stone-200 animate-in fade-in zoom-in-95 duration-200">
+      
+      <!-- Cabecera del Carrito (Fija / Sticky en la parte superior) -->
+      <div class="flex-shrink-0 px-6 py-4 bg-fondo-crema border-b border-stone-200 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <svg class="w-6 h-6 text-verde-oscuro" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+          </svg>
+          <h2 id="titulo-carrito" class="font-display text-xl font-bold text-verde-oscuro">
+            Tu Carrito
+          </h2>
+        </div>
+
+        <!-- Botón de cerrar carrito -->
+        <button 
+          id="cerrar-carrito" 
+          type="button" 
+          class="text-stone-400 hover:text-marron-tierra p-2 rounded-full hover:bg-stone-100 transition-colors focus:outline-none focus:ring-2 focus:ring-verde-claro"
+          aria-label="Cerrar carrito de compras"
+        >
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Cuerpo / Contenido Central del Modal (Scrolleable internamente) -->
+      <div class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6">
+        
+        <!-- Lista de Productos en el Carrito (Contenedor para JS) -->
+        <div id="carrito-items" class="divide-y divide-stone-100">
+          <!-- Mensaje de Carrito Vacío (Estado inicial) -->
+          <div id="carrito-vacio" class="flex flex-col items-center justify-center text-center py-8 text-stone-500">
+            <svg class="w-16 h-16 text-stone-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+            <p class="font-medium text-stone-700">Tu carrito aún está vacío</p>
+            <p class="text-xs text-stone-500 mt-1 max-w-xs">Agrega productos frescos de nuestro catálogo para comenzar tu pedido.</p>
+          </div>
+        </div>
+
+        <!-- SECCIÓN: Método de Entrega -->
+        <div class="space-y-3 pt-4 border-t border-stone-200">
+          <span class="block text-xs font-bold uppercase tracking-wider text-verde-oscuro">
+            Método de Entrega:
+          </span>
+          
+          <div class="grid grid-cols-2 gap-2">
+            <!-- Opción 1: Retiro en Tienda (Por defecto) -->
+            <label class="flex items-center gap-2 p-2.5 bg-white border border-stone-200 rounded-xl cursor-pointer hover:border-verde-claro transition-all has-[:checked]:border-verde-oscuro has-[:checked]:bg-verde-claro/10 has-[:checked]:font-semibold text-xs sm:text-sm text-stone-700">
+              <input 
+                type="radio" 
+                name="metodo-entrega" 
+                id="entrega-retiro" 
+                value="retiro" 
+                checked 
+                class="w-4 h-4 text-verde-oscuro focus:ring-verde-claro accent-verde-oscuro"
+              >
+              <span>🏪 Retiro en Tienda</span>
+            </label>
+
+            <!-- Opción 2: Delivery -->
+            <label class="flex items-center gap-2 p-2.5 bg-white border border-stone-200 rounded-xl cursor-pointer hover:border-verde-claro transition-all has-[:checked]:border-verde-oscuro has-[:checked]:bg-verde-claro/10 has-[:checked]:font-semibold text-xs sm:text-sm text-stone-700">
+              <input 
+                type="radio" 
+                name="metodo-entrega" 
+                id="entrega-delivery" 
+                value="delivery" 
+                class="w-4 h-4 text-verde-oscuro focus:ring-verde-claro accent-verde-oscuro"
+              >
+              <span>🛵 Delivery</span>
+            </label>
+          </div>
+
+          <!-- Contenedor desplegable para datos de Delivery (Oculto por defecto) -->
+          <div id="seccion-delivery" class="hidden space-y-3 pt-2">
+            
+            <!-- Selector de Zona de Envío (Ciudades del Dpto. de Cordillera) -->
+            <div>
+              <label for="select-zona" class="block text-xs font-semibold text-stone-600 mb-1">
+                Zona de Envío (Dpto. de Cordillera):
+              </label>
+              <select 
+                id="select-zona" 
+                class="w-full text-xs sm:text-sm bg-white border border-stone-300 rounded-xl px-3 py-2 text-stone-700 focus:outline-none focus:ring-2 focus:ring-verde-claro focus:border-verde-claro"
+              >
+                <option value="10000" data-nombre="Caacupé" selected>Caacupé (Gs. 10.000)</option>
+                <option value="15000" data-nombre="Tobatí">Tobatí (Gs. 15.000)</option>
+                <option value="15000" data-nombre="Atyrá">Atyrá (Gs. 15.000)</option>
+                <option value="20000" data-nombre="Eusebio Ayala">Eusebio Ayala (Gs. 20.000)</option>
+              </select>
+            </div>
+
+            <!-- Input para Dirección exacta -->
+            <div>
+              <label for="input-direccion" class="block text-xs font-semibold text-stone-600 mb-1">
+                Dirección exacta de entrega:
+              </label>
+              <input 
+                type="text" 
+                id="input-direccion" 
+                placeholder="Ej: Barrio San Roque c/ Tte. Fariña"
+                class="w-full text-xs sm:text-sm bg-white border border-stone-300 rounded-xl px-3 py-2 text-stone-800 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-verde-claro focus:border-verde-claro"
+              >
+            </div>
+
+            <!-- Mapa Interactivo de Delivery -->
+            <div class="space-y-1.5 pt-1">
+              <p class="text-xs text-stone-600 font-medium flex items-center gap-1.5">
+                <span class="text-red-500 font-bold">📍</span> Mueve el marcador rojo a la ubicación de entrega
+              </p>
+              <div id="mapa-delivery" style="height: 250px; width: 100%; border-radius: 8px;" class="border border-stone-300 shadow-inner overflow-hidden z-0"></div>
+              <p class="text-[11px] text-stone-400 italic">
+                Las coordenadas se adjuntarán automáticamente a tu pedido de WhatsApp.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Pie del Modal (Fijo / Sticky en la parte inferior): Resumen y Botón Confirmar -->
+      <div class="flex-shrink-0 px-6 py-4 bg-stone-50 border-t border-stone-200 space-y-3">
+        <!-- Desglose de Totales -->
+        <div class="space-y-1.5 text-xs sm:text-sm text-stone-600">
+          <div class="flex justify-between items-center">
+            <span>Subtotal productos:</span>
+            <span id="carrito-subtotal" class="font-semibold text-stone-800">Gs. 0</span>
+          </div>
+          
+          <div id="fila-costo-delivery" class="hidden flex justify-between items-center text-marron-tierra font-semibold">
+            <span>Costo de Delivery:</span>
+            <span id="carrito-costo-delivery">Gs. 0</span>
+          </div>
+
+          <div class="flex items-center justify-between pt-2 border-t border-stone-200 text-base font-medium text-stone-800">
+            <span class="font-bold">Total a pagar:</span>
+            <span id="carrito-total" class="text-2xl font-display font-bold text-verde-oscuro">
+              Gs. 0
+            </span>
+          </div>
+        </div>
+
+        <!-- Botón Confirmar Pedido -->
+        <button 
+          id="btn-confirmar-pedido" 
+          type="button" 
+          class="w-full bg-verde-oscuro hover:bg-verde-claro text-white font-semibold py-3.5 px-4 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 text-center block focus:outline-none focus:ring-2 focus:ring-verde-claro focus:ring-offset-2 active:scale-98"
+        >
+          Confirmar Pedido
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==========================================
+       4. BOTONES FLOTANTES DE ACCIÓN RÁPIDA (FAB)
+       - Carrito Arriba
+       - WhatsApp Abajo (esquina inferior derecha)
+       ========================================== -->
+  <div class="fixed bottom-6 right-6 z-40 flex flex-col gap-3.5 items-end">
+    <!-- 1. Botón Flotante de Carrito de Compras (Arriba) -->
+    <button 
+      id="btn-carrito-flotante" 
+      type="button" 
+      class="group relative flex items-center justify-center w-14 h-14 bg-verde-oscuro hover:bg-verde-claro text-white rounded-full shadow-lg hover:shadow-2xl hover:scale-110 active:scale-95 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-verde-claro/50"
+      aria-label="Abrir carrito de compras"
+      title="Ver carrito de compras"
+    >
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+      </svg>
+      <span 
+        id="contador-carrito-flotante" 
+        class="absolute -top-1.5 -right-1.5 min-w-[1.4rem] h-[1.4rem] px-1 bg-red-600 border-2 border-white text-white font-extrabold text-[11px] rounded-full flex items-center justify-center shadow-md"
+      >
+        0
+      </span>
+      <span class="absolute right-16 px-3 py-1.5 rounded-lg bg-stone-900/90 text-white text-xs font-medium whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none shadow-md">
+        Ver Carrito
+      </span>
+    </button>
+
+    <!-- 2. Botón Flotante de WhatsApp (Abajo) -->
+    <a 
+      id="btn-whatsapp-flotante"
+      href="https://wa.me/595992496455" 
+      target="_blank" 
+      rel="noopener noreferrer"
+      class="group relative flex items-center justify-center w-14 h-14 bg-[#25D366] hover:bg-[#20ba59] text-white rounded-full shadow-lg hover:shadow-2xl hover:scale-110 active:scale-95 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-green-300"
+      aria-label="Contactar por WhatsApp"
+      title="Contactar por WhatsApp"
+    >
+      <svg class="w-7 h-7 fill-white" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+        <path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232"/>
+      </svg>
+      <span class="absolute right-16 px-3 py-1.5 rounded-lg bg-stone-900/90 text-white text-xs font-medium whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none shadow-md">
+        Escríbenos a WhatsApp
+      </span>
+    </a>
+  </div>
+
+  <!-- ==========================================
+       5. FOOTER / PIE DE PÁGINA
+       ========================================== -->
+  <footer class="bg-verde-oscuro text-white mt-16 border-t-4 border-amarillo-sol">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
+      
+      <!-- Parte Superior: Marca, Ubicación del Local, Redes y Academia -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center md:items-start text-center md:text-left pb-8 border-b border-white/10">
+        <!-- 1. Logo Clickeable hacia index.html -->
+        <a href="index.html" class="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-3.5 group focus:outline-none focus:ring-2 focus:ring-verde-claro rounded-2xl p-1 transition" aria-label="Volver al inicio - Nido Rural">
+          <img 
+            src="img/Nido_Rural_logo_alta_calidad_page-0001 - Editado.jpg" 
+            alt="Logotipo Nido Rural" 
+            width="64"
+            height="64"
+            class="logo-nido-rural logo-nido-rural-footer h-16 w-16 flex-shrink-0 aspect-square object-contain rounded-full border-2 border-verde-claro/40 shadow-sm group-hover:scale-105 transition-transform duration-300"
+            style="width: 64px; height: 64px; aspect-ratio: 1/1; object-fit: contain; flex-shrink: 0;"
+            onerror="this.onerror=null; this.src='img/favicon.svg';"
+          >
+          <div class="flex flex-col">
+            <span class="font-display text-2xl font-bold tracking-tight text-white group-hover:text-amarillo-sol transition-colors">
+              Nido Rural
+            </span>
+            <span class="text-stone-300 text-xs sm:text-sm mt-0.5">
+              Calidad fresca, producción local.
+            </span>
+          </div>
+        </a>
+
+        <!-- 2. Ubicación del Local Físico -->
+        <div class="flex flex-col items-center md:items-start gap-2">
+          <span class="text-amarillo-sol text-xs font-bold uppercase tracking-wider flex items-center gap-1.5">
+            <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+            </svg>
+            Ubicación del Local
+          </span>
+          <p class="text-stone-200 text-xs sm:text-sm leading-relaxed max-w-xs">
+            Calle Boquerón esq. Dr. Pino<br>
+            Ciudad de Caacupé, Cordillera — Paraguay
+          </p>
+          <a 
+            href="https://maps.app.goo.gl/vwrevVwRssCXXirN8" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            class="inline-flex items-center gap-1.5 text-xs font-semibold text-amarillo-sol hover:text-white underline underline-offset-4 transition-colors mt-0.5 group/map"
+            title="Abrir ubicación exacta en Google Maps"
+          >
+            <span>Ver en Google Maps</span>
+            <svg class="w-3.5 h-3.5 group-hover/map:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+            </svg>
+          </a>
+        </div>
+
+        <!-- 3. Redes Sociales e Información Académica -->
+        <div class="flex flex-col items-center md:items-end gap-3.5">
+          <!-- Sección de Redes Sociales (Instagram) -->
+          <div class="flex items-center gap-2.5">
+            <span class="text-stone-300 text-xs font-semibold uppercase tracking-wider">Síguenos:</span>
+            <a 
+              href="https://www.instagram.com/nido_rural?rpxt=NDlobXRhbGw3b3Jx" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-white hover:text-amarillo-sol transition-all duration-300 hover:scale-110 shadow-sm focus:outline-none focus:ring-2 focus:ring-verde-claro"
+              aria-label="Seguir a Nido Rural en Instagram"
+              title="Instagram: @nido_rural"
+            >
+              <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+              </svg>
+            </a>
+          </div>
+
+          <!-- Información Académica -->
+          <div class="text-stone-300 text-xs sm:text-sm text-center md:text-right">
+            <span class="inline-block bg-white/10 px-3.5 py-1.5 rounded-full border border-white/10">
+              Universidad del Norte • Ciencias Contables & Administración
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Parte Inferior: Derechos Reservados y Marca de Agua de Agencia -->
+      <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left text-xs sm:text-sm text-stone-300">
+        <p>
+          &copy; 2026 Nido Rural. Todos los derechos reservados.
+        </p>
+
+        <!-- Firma sutil / Marca de agua con enlace a EB Digital Studio -->
+        <p class="opacity-75 hover:opacity-100 transition-opacity">
+          Desarrollado por: 
+          <a 
+            href="https://www.ebdigitalstudio.com.py" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            class="font-semibold underline decoration-white/30 hover:text-green-700 hover:text-verde-claro transition-colors"
+          >
+            EB Digital Studio
+          </a>
+        </p>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- ==========================================
+       6. SCRIPTS
+       ========================================== -->
+  <script src="js/main.js"></script>
+</body>
+</html>

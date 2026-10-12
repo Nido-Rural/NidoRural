@@ -1,0 +1,35 @@
+/* ==========================================
+   NIDO RURAL - ESTILOS PERSONALIZADOS
+   ========================================== */
+
+/* Proporción 1:1 estricta para el logo en cualquier pantalla y contenedor */
+.logo-nido-rural {
+  aspect-ratio: 1 / 1 !important;
+  object-fit: contain !important;
+  flex-shrink: 0 !important;
+  border-radius: 9999px !important;
+  display: block !important;
+}
+
+.logo-nido-rural-header {
+  width: 44px !important;
+  height: 44px !important;
+  max-width: 44px !important;
+  max-height: 44px !important;
+}
+
+@media (min-width: 640px) {
+  .logo-nido-rural-header {
+    width: 56px !important;
+    height: 56px !important;
+    max-width: 56px !important;
+    max-height: 56px !important;
+  }
+}
+
+.logo-nido-rural-footer {
+  width: 64px !important;
+  height: 64px !important;
+  max-width: 64px !important;
+  max-height: 64px !important;
+}
