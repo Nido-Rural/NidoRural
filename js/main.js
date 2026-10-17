@@ -83,6 +83,33 @@ document.addEventListener('DOMContentLoaded', () => {
       etiqueta: 'Surtido Completo',
       descripcion: 'Verduras variadas: 1 mazo de lechuga, 1 mazo de perejil, 5 cebollas, 6 tomates, 5 locotes, 3 mazos de mandioca, 5 zanahorias, 1 zapallo, 5 papas, 4 remolachas.',
       imagen: 'img/canasta.jpeg'
+    },
+    {
+      id: 7,
+      nombre: 'Harina de Maíz (1 Kg)',
+      precio: 13800, // Gs. 13.800
+      categoria: 'Almacén Rural',
+      etiqueta: 'Bolsa de 1 Kg',
+      descripcion: 'Harina de maíz seleccionada de molienda tradicional, ideal para la elaboración de auténtica sopa paraguaya, chipa guasu y platos típicos.',
+      imagen: 'img/harinamaiz.jpeg'
+    },
+    {
+      id: 8,
+      nombre: 'Almidón de Mandioca (1 Kg)',
+      precio: 13800, // Gs. 13.800
+      categoria: 'Almacén Rural',
+      etiqueta: 'Bolsa de 1 Kg',
+      descripcion: 'Almidón de mandioca refinado y de textura suave, ingrediente fundamental para preparar la tradicional chipa paraguaya y mbeju casero.',
+      imagen: 'img/almidon.jpeg'
+    },
+    {
+      id: 9,
+      nombre: 'Harina de Trigo (1 Kg)',
+      precio: 4700, // Gs. 4.700
+      categoria: 'Almacén Rural',
+      etiqueta: 'Paquete de 1 Kg',
+      descripcion: 'Harina de trigo de máxima pureza y calidad para masas, panes caseros, tortas y todo tipo de preparaciones de panadería artesanal.',
+      imagen: 'img/harina.jpeg'
     }
   ];
 
@@ -258,8 +285,8 @@ document.addEventListener('DOMContentLoaded', () => {
      ========================================================================== */
   function renderizarProductos() {
     // Si no estamos en la página del catálogo, no ejecutamos
-    // Forzar 2 columnas en móvil y 3/4 en escritorio
-    contenedorGrid.className = 'grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4';
+    // Forzar 2 columnas en móvil y 3 columnas en escritorio (cuadrícula 3x3)
+    contenedorGrid.className = 'grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-3';
     contenedorGrid.innerHTML = '';
 
     productos.forEach(producto => {
